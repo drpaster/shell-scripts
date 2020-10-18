@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# Description: SSHFS umount script
+#
+# Maintainer: Ivan G. Volkov <i@volkov.work>
+#
+# URL: https://volkov.work/dev
+#
+
+ROOT_PATH=/home/$USER
+SSHFS_DIR=_sshfs
+
+while [[ $# > 1 ]]
+do
+    key="$1"
+    case $key in
+        -n|--node)
+            NODE="$2"
+            shift
+        ;;
+        -d|--sshfs-dir)
+            SSHFS_DIR="$2"
+            shift
+        ;;
+    *)
+    ;;
+    esac
+    shift
+done
+
+umount_node () {
+    sudo umount $1
+    printf "Remove: %s \n" "$1"
+    sudo -u $USER rmdir $1
+}
+
+if [[ $NODE == "all" ]]; then
+    i=0
+    for cur_node_dir in `find $ROOT_PATH/$SSHFS_DIR/* -maxdepth 0 -type d`; do
+        umount_node $cur_node_dir
+        i=$[$i +1]
+    done
+    echo "Umount $i SSHFS Nodes"
+elif [[ $NODE == "" ]]; then
+    printf "Use -n|--node {NAME_SSH_NODE}. Or -n all - for umount all nodes"
+else
+    umount_node $ROOT_PATH/$SSHFS_DIR/$NODE
+fi

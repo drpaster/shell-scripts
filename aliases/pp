@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+#
+# Description: Passwords map generator
+#
+# Maintainer: Ivan G. Volkov <i@volkov.work>
+#
+# URL: https://volkov.work/dev
+#
+
+# Colors
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+GREEN="\033[0;32m"
+GRAY="\033[0;90m"
+
+# Weight
+BOLD="\033[1m"
+RESET="\033[0m"
+
+
+echo "${GRAY}************* ${RED}${BOLD}Pronounceable [SIMPLE]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 0 -M cl -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+apg -a 0 -M cl -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${RED}${BOLD}Pronounceable [MIDLE]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 0 -M ncl -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+apg -a 0 -M ncl -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${YELLOW}${BOLD}Pronounceable [STRONG]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 0 -M SNCL -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+apg -a 0 -M SNCL -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${RED}${BOLD}Secure [SIMPLE]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 1 -M CL -c /dev/urandom -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+apg -a 1 -M CL -c /dev/urandom -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${YELLOW}${BOLD}Secure [MIDLE]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 1 -M NCL -c /dev/urandom -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+apg -a 1 -M NCL -c /dev/urandom -n 5 -m 12 -x 12 -d | sed 's/.\{12\}/&\t/g' | sed 's/.\{65\}/&\n/g'
+apg -a 1 -M NCL -c /dev/urandom -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+apg -a 1 -M SNCL -c /dev/urandom -n 5 -m 8 -x 8 -d | sed 's/.\{8\}/&\t/g' | sed 's/.\{45\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${GREEN}${BOLD}Secure [STRONG]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 1 -M SNCL -c /dev/urandom -n 5 -m 12 -x 12 -d | sed 's/.\{12\}/&\t/g' | sed 's/.\{65\}/&\n/g'
+apg -a 1 -M SNCL -c /dev/urandom -n 4 -m 16 -x 16 -d | sed 's/.\{16\}/&\t/g' | sed 's/.\{68\}/&\n/g'
+apg -a 1 -M SNCL -c /dev/urandom -n 2 -m 32 -x 32 -d | sed 's/.\{32\}/&\t/g' | sed 's/.\{66\}/&\n/g'
+echo ""
+
+echo "${GRAY}************* ${GREEN}${BOLD}Secure [SUPERSTRONG]${RESET} ${GRAY}***************** ${RESET}"
+apg -a 1 -M SNCL -c /dev/urandom -n 2 -m 64 -x 64

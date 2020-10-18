@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Description: SSHFS mount script
+#
+# Maintainer: Ivan G. Volkov <i@volkov.work>
+#
+# URL: https://volkov.work/dev
+#
+
+REMOTEUSER=$USER
+ROOT_PATH=/home/$USER
+SSHFS_DIR=_sshfs
+
+while [[ $# > 1 ]]
+do
+    key="$1"
+    case $key in
+        -u|--user)
+            REMOTEUSER="$2"
+            shift
+        ;;
+        -n|--node)
+            NODE="$2"
+            shift
+        ;;
+        -d|--sshfs-dir)
+            SSHFS_DIR="$2"
+            shift
+        ;;
+    *)
+    ;;
+    esac
+    shift
+done
+
+mkdir -p $ROOT_PATH/$SSHFS_DIR/$NODE
+sudo -u $USER sshfs $REMOTEUSER@$NODE:/ $ROOT_PATH/$SSHFS_DIR/$NODE

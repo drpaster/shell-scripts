@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+#
+# Description: Key map generator
+#
+# Maintainer: Ivan G. Volkov <i@volkov.work>
+#
+# URL: https://volkov.work/dev
+#
+
+# Colors
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+GREEN="\033[0;32m"
+GRAY="\033[0;90m"
+
+# Weight
+BOLD="\033[1m"
+RESET="\033[0m"
+
+keygen(){
+  if [ -z "$1" ]
+  then
+    bits=512
+  else
+    bits=$1
+  fi
+
+  bytes=$(( $bits / 8 ))
+
+  KEY=`openssl rand -rand /dev/urandom -hex ${bytes} | tr [:lower:] [:upper:]`
+
+  echo "${GRAY}************* ${RED}${BOLD}${bits} bit key${RESET} ${GRAY}***************** ${RESET}"
+
+  echo "${GREEN}${BOLD}[Base64]${RESET}"
+  echo "${KEY}" | xxd -r -p | base64 | tr -d '\n\r\\'; echo; echo;
+
+  echo "${GREEN}${BOLD}[HEX]${RESET}"
+  echo "${KEY}"; echo;
+
+  echo "${GREEN}${BOLD}[Dec]${RESET}"
+  echo "obase=10; ibase=16; ${KEY}" | bc | tr -d '\n\r\\'; echo; echo;
+
+  echo "${GREEN}${BOLD}[Oct]${RESET}"
+  echo "obase=8; ibase=16; ${KEY}" | bc | tr -d '\n\r\\'; echo; echo;
+
+  echo "${GREEN}${BOLD}[Bin]${RESET}"
+  echo "obase=2; ibase=16; ${KEY}" | bc | tr -d '\n\r\\'; echo; echo;
+}
+
+keygen $1
